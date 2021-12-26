@@ -1,19 +1,22 @@
-# studiu
+# Studiu
 
-## Project setup
-```
-npm install
-```
+Forum za studente
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Autori i zaduženja
 
-### Compiles and minifies for production
-```
-npm run build
-```
+- **Roko Fumić** (rfumic@unipu.hr)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Prototip aplikacije
+
+Figma: https://figma.com/...
+
+### Javni link na aplikaciju
+
+Web: https://netlify... (dodat će se kasnije)
+
+### Organizacija
+
+[Sveučilište Jurja Dobrile u Puli](http://www.unipu.hr/)  
+[Fakultet informatike u Puli](https://fipu.unipu.hr/)  
+Programsko inženjerstvo, ak.god. 2021./2022.  
+Mentor: **Nikola Tanković** (https://fipu.unipu.hr/fipu/nikola.tankovic, nikola.tankovic@unipu.hr)
