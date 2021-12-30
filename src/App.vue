@@ -19,8 +19,8 @@
           <form>
             <input
               type="search"
-              placeholder=" Pretraži Studiu"
-              class="container border border-gray-400"
+              placeholder="Pretraži Studiu"
+              class="container border border-gray-400 px-2 focus:outline-none focus:ring-2"
             />
           </form>
         </div>
