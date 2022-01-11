@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center items-start m-1 px-2 text-left">
     <div
-      class="bg-white rounded-2xl w-[50%] border border-solid cursor-pointer flex items-center hover:bg-gray-100/50 transition ease-in-out duration-300"
+      class="bg-white rounded-3xl w-[50%] border border-solid cursor-pointer flex items-center hover:bg-gray-100/50 transition ease-in-out duration-300"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +15,7 @@
           clip-rule="evenodd"
         />
       </svg>
-      <div class="text-xl px-5">Objavi u Strukture podataka i algoritmi</div>
+      <div class="text-xl px-5">Objavi u {{ title }}</div>
       <div></div>
     </div>
   </div>
@@ -24,5 +24,6 @@
 <script>
 export default {
   name: "AddPost",
+  props: ["title"],
 };
 </script>

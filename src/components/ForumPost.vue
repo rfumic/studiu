@@ -1,20 +1,17 @@
 <template>
   <div class="flex justify-center items-start m-1 px-2 text-left">
-    <div class="bg-white rounded w-[50%] border border-solid">
+    <div class="bg-white rounded-3xl w-[50%] border border-solid">
       <div class="px-4 py-6 flex flex-col items-start text-4xl">
         <div class="flex justify-between w-full pb-2">
-          <div class="text-sm">Username:</div>
+          <div class="text-sm">{{ username }}:</div>
 
-          <div class="text-sm text-gray-500">20 minutes ago</div>
+          <div class="text-sm text-gray-500">{{ time }}</div>
         </div>
         <div class="cursor-pointer hover:-translate-y-0.5 transform transition">
-          title
+          {{ title }}
         </div>
         <div class="text-lg py-1">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas
-          cupiditate illum facilis iusto ea deserunt voluptatibus ipsum nam,
-          eligendi maiores harum repellendus fugiat assumenda, inventore nobis
-          quidem dolorum reiciendis aperiam?
+          {{ content }}
         </div>
         <div class="flex w-full justify-between text-lg items-center">
           <div class="flex p-2 items-center">
@@ -70,5 +67,6 @@
 <script>
 export default {
   name: "ForumPost",
+  props: ["title", "content", "username", "time"],
 };
 </script>

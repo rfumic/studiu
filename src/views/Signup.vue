@@ -42,7 +42,7 @@
 
           <div class="flex items-baseline justify-between">
             <button
-              class="text-lg px-6 py-2 mt-4 text-white bg-orange-500 rounded-lg hover:bg-white hover:ring-1 hover:ring-orange-500 hover:ring-inset hover:text-orange-500"
+              class="text-lg px-6 py-2 mt-4 transition-all text-white bg-orange-500 rounded-lg hover:bg-white hover:ring-1 hover:ring-orange-500 hover:ring-inset hover:text-orange-500"
             >
               Registracija
             </button>
