@@ -1,14 +1,42 @@
 <template>
   <!-- <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> -->
-  <Navbar />
+  {{ navData }}
+  ovo je za debugging
+  <Navbar :currentUser="navData" />
   <router-view />
 </template>
 
 <script>
 import Navbar from "./components/Navbar.vue";
+import store from "@/store";
+import { firebase } from "@/firebase";
+console.log("App.vue prije pozivanja funkcijed: ", store.currentUser);
+let navData;
+firebase.auth().onAuthStateChanged((user) => {
+  console.log("app.vue pozvana je firebase fubkcija");
+  if (user) {
+    // User is signed in.
+    console.log(user.email);
+    store.currentUser = user.email;
+  } else {
+    // User is not signed in.
+    console.log("No user");
+    store.currentUser = null;
+  }
+  console.log("Iz app.vue", store.currentUser);
+});
+navData = store.currentUser;
+console.log("navData je", navData);
+
 export default {
   name: "app",
+  data() {
+    return {
+      store,
+      navData,
+    };
+  },
   components: {
     Navbar,
   },

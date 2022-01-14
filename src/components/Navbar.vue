@@ -2,6 +2,7 @@
   <nav class="bg-orange-500 h-[64px] drop-shadow-xl">
     <!-- div za grid vvvv -->
     <div
+      @click="test()"
       class="mx-[5%] h-[64px] grid grid-cols-12 gap-[0.75%] place-items-center"
     >
       <div class="col-span-2 h-[64px]">
@@ -49,23 +50,58 @@
       </div>
        -->
       <router-link
+        v-if="!currentUser"
         to="/login"
         class="text-white hover:text-gray-200 hover:scale-110 hover:-rotate-1 transition ease-in-out"
       >
         Prijava
       </router-link>
       <router-link
+        v-if="!currentUser"
         to="/signup"
         class="text-white hover:text-gray-200 hover:scale-110 transition ease-in-out hover:rotate-1"
       >
         Registracija
       </router-link>
+      <router-link to="/forums" v-if="currentUser">Forumi</router-link>
+      <a
+        v-if="currentUser"
+        href="#"
+        @click.prevent="logout()"
+        class="text-white hover:text-gray-200 hover:scale-110 transition ease-in-out hover:rotate-1"
+      >
+        Odjava
+      </a>
     </div>
   </nav>
 </template>
 
 <script>
+import { firebase } from "@/firebase";
+import store from "@/store";
+//console.log("iz navbara prva", currentUser);
+
 export default {
   name: "navbar",
+  props: ["currentUser"],
+  data() {
+    return {
+      store,
+      cUser: this.currentUser,
+    };
+  },
+  methods: {
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace({ name: "Login" });
+        });
+    },
+    test() {
+      console.log("Sa navbar komponente user:", this.cUser);
+    },
+  },
 };
 </script>

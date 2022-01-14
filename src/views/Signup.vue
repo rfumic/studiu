@@ -106,14 +106,15 @@ export default {
     passwordCheck() {
       this.showWarning = false;
       console.log("Pozvana je funkcija za provjeru lozinke");
-      const sW = () => {
+
+      const userWarn = () => {
         if (this.showWarning == false) this.showWarning = true;
       };
 
       // ↓↓↓↓ Provjera popunjenost forme
       if (!(this.email && this.password && this.passwordRepeat)) {
         this.warningText = "Potrebno je popuniti sva polja!";
-        sW();
+        userWarn();
         return;
       }
 
@@ -124,21 +125,21 @@ export default {
       };
       if (!mailCheck()) {
         this.warningText = "Potrebno je unesti pravi email";
-        sW();
+        userWarn();
         return;
       }
 
       // ↓↓↓↓ Provjera poklapanja lozinki
       if (this.password != this.passwordRepeat) {
         this.warningText = "Lozinke se ne poklapaju!";
-        sW();
+        userWarn();
         return;
       }
 
       // ↓↓↓↓ Provjera dužine lozinke
       if (this.passwordRepeat.length < 6) {
         this.warningText = "Lozinka mora imati najmanje 6 znakova!";
-        sW();
+        userWarn();
         return;
       }
 
