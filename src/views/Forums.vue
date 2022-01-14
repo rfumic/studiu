@@ -18,6 +18,11 @@ listaForuma = [
   { title: "Baze podataka" },
   { title: "Ekonomija" },
   { title: "Funkcijsko programiranje" },
+  { title: "Makroekonomija" },
+  { title: "Mehanika fluida" },
+  { title: "Latinski jezik" },
+  { title: "Funkcijsko programiranje" },
+  { title: "Funkcijsko programiranje" },
 ];
 
 export default {

@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-100 mx-[5%] min-h-screen pb-8 text-center">
-    <h1 class="text-6xl py-8">{{ nazivForuma }}</h1>
+    <h1 class="text-5xl py-8">{{ nazivForuma }}</h1>
     <forum-post
       :title="postData.title"
       :content="postData.content"
@@ -18,12 +18,12 @@
             ></textarea>
             <div class="flex justify-between w-full">
               <button
-                class="text-lg mx-2 px-6 py-2 mt-4 text-white bg-orange-500 transition-all rounded-lg hover:bg-white hover:ring-1 hover:ring-orange-500 hover:ring-inset hover:text-orange-500"
+                class="text-sm mx-2 px-6 py-2 mt-4 text-white bg-orange-500 transition-all rounded-lg hover:bg-white hover:ring-1 hover:ring-orange-500 hover:ring-inset hover:text-orange-500"
               >
                 Objavi
               </button>
               <button
-                class="text-lg px-6 py-2 mt-4 text-gray-500 bg-white border rounded-lg transition-all hover:bg-white hover:ring-1 hover:ring-orange-500 hover:ring-inset hover:text-orange-500"
+                class="text-sm px-6 py-2 mt-4 text-gray-500 bg-white border rounded-lg transition-all hover:bg-white hover:ring-1 hover:ring-orange-500 hover:ring-inset hover:text-orange-500"
               >
                 Otkaži
               </button>

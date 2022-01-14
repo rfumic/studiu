@@ -5,7 +5,7 @@
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-20 w-20 text-orange-500"
+        class="h-10 w-10 text-orange-500"
         viewBox="0 0 20 20"
         fill="currentColor"
       >
@@ -15,7 +15,7 @@
           clip-rule="evenodd"
         />
       </svg>
-      <div class="text-xl px-5">Objavi u {{ title }}</div>
+      <div class="text-lg px-5">Objavi u {{ title }}</div>
       <div></div>
     </div>
   </div>

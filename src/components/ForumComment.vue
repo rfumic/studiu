@@ -4,7 +4,7 @@
       <div class="bg-white rounded-3xl w-[75%] border border-solid">
         <div class="px-4 py-6 flex flex-col items-start text-4xl">
           <div class="flex justify-between w-full pb-2">
-            <div class="text-sm">{{ username }}:</div>
+            <div class="text-sm text-gray-500">{{ username }}:</div>
 
             <div class="text-sm text-gray-500">{{ time }}</div>
           </div>
@@ -12,12 +12,12 @@
           <div class="text-base py-1">
             {{ content }}
           </div>
-          <div class="flex w-full justify-between text-lg items-center">
+          <div class="flex w-full justify-between text-sm items-center">
             <div class="flex p-2 items-center">
               <div class="p-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 hover:text-emerald-500 transition-all cursor-pointer active:text-emerald-600 active:border rounded-full"
+                  class="h-4 w-4 hover:text-emerald-500 transition-all cursor-pointer active:text-emerald-600 active:border rounded-full"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -30,7 +30,7 @@
               <div class="p-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 hover:text-red-500 transition-all cursor-pointer active:text-red-600 active:border rounded-full"
+                  class="h-4 w-4 hover:text-red-500 transition-all cursor-pointer active:text-red-600 active:border rounded-full"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >

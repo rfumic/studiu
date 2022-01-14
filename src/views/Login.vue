@@ -1,26 +1,28 @@
 <template>
   <div
-    class="flex items-center mx-[5%] justify-center min-h-screen bg-gray-100"
+    class="flex items-baseline mx-[5%] justify-center min-h-screen bg-gray-100"
   >
-    <div class="px-20 py-6 mt-4 text-left bg-white shadow-lg">
-      <h3 class="text-5xl font-bold text-center">Prijavi se na račun</h3>
+    <div
+      class="px-20 py-6 mt-40 text-left bg-white shadow-lg w-[60%] rounded-3xl"
+    >
+      <h3 class="text-5xl text-center">Prijava</h3>
       <form action="">
         <div class="mt-4">
           <div>
-            <label class="block text-3xl" for="email">Email</label>
+            <label class="block text-2xl" for="email">Email</label>
             <input
               type="text"
               placeholder="Email"
-              class="text-xl w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+              class="text-lg w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
           </div>
 
           <div class="mt-4">
-            <label class="block text-3xl">Lozinka</label>
+            <label class="block text-2xl">Lozinka</label>
             <input
               type="password"
               placeholder="Lozinka"
-              class="w-full px-4 py-2 text-xl mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+              class="w-full px-4 py-2 text-lg mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
           </div>
 
