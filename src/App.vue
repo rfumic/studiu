@@ -1,9 +1,7 @@
 <template>
   <!-- <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> -->
-  {{ navData }}
-  ovo je za debugging
-  <Navbar :currentUser="navData" />
+  <Navbar />
   <router-view />
 </template>
 
@@ -12,12 +10,12 @@ import Navbar from "./components/Navbar.vue";
 import store from "@/store";
 import { firebase } from "@/firebase";
 console.log("App.vue prije pozivanja funkcijed: ", store.currentUser);
-let navData;
+
 firebase.auth().onAuthStateChanged((user) => {
   console.log("app.vue pozvana je firebase fubkcija");
   if (user) {
     // User is signed in.
-    console.log(user.email);
+    console.log("app.vue iz firebase auth funkcije: ", user.email);
     store.currentUser = user.email;
   } else {
     // User is not signed in.
@@ -26,15 +24,12 @@ firebase.auth().onAuthStateChanged((user) => {
   }
   console.log("Iz app.vue", store.currentUser);
 });
-navData = store.currentUser;
-console.log("navData je", navData);
 
 export default {
   name: "app",
   data() {
     return {
       store,
-      navData,
     };
   },
   components: {

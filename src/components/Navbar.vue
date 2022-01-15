@@ -2,7 +2,6 @@
   <nav class="bg-orange-500 h-[64px] drop-shadow-xl">
     <!-- div za grid vvvv -->
     <div
-      @click="test()"
       class="mx-[5%] h-[64px] grid grid-cols-12 gap-[0.75%] place-items-center"
     >
       <div class="col-span-2 h-[64px]">
@@ -49,58 +48,69 @@
         
       </div>
        -->
+
       <router-link
-        v-if="!currentUser"
+        to="/forums"
+        v-if="loggedIn"
+        class="text-white hover:text-gray-200 hover:scale-110 hover:-rotate-1 transition ease-in-out"
+        >{{ username }}</router-link
+      >
+      <router-link
+        v-else
         to="/login"
         class="text-white hover:text-gray-200 hover:scale-110 hover:-rotate-1 transition ease-in-out"
       >
         Prijava
       </router-link>
-      <router-link
-        v-if="!currentUser"
-        to="/signup"
-        class="text-white hover:text-gray-200 hover:scale-110 transition ease-in-out hover:rotate-1"
-      >
-        Registracija
-      </router-link>
-      <router-link to="/forums" v-if="currentUser">Forumi</router-link>
       <a
-        v-if="currentUser"
+        v-if="loggedIn"
         href="#"
         @click.prevent="logout()"
         class="text-white hover:text-gray-200 hover:scale-110 transition ease-in-out hover:rotate-1"
       >
         Odjava
       </a>
+
+      <router-link
+        v-else
+        to="/signup"
+        class="text-white hover:text-gray-200 hover:scale-110 transition ease-in-out hover:rotate-1"
+      >
+        Registracija
+      </router-link>
     </div>
   </nav>
 </template>
 
 <script>
 import { firebase } from "@/firebase";
-import store from "@/store";
-//console.log("iz navbara prva", currentUser);
+console.log("Iz navbara: ", firebase.auth().currentUser);
 
 export default {
   name: "navbar",
-  props: ["currentUser"],
+  created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      this.loggedIn = !!user;
+      if (user) {
+        this.username = firebase.auth().currentUser.displayName;
+      }
+    });
+  },
   data() {
     return {
-      store,
-      cUser: this.currentUser,
+      loggedIn: false,
+      username: "",
     };
   },
   methods: {
-    logout() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.replace({ name: "Login" });
-        });
-    },
-    test() {
-      console.log("Sa navbar komponente user:", this.cUser);
+    async logout() {
+      try {
+        const data = await firebase.auth().signOut();
+        console.log(data);
+        this.$router.replace({ name: "Login" });
+      } catch (err) {
+        console.error(err);
+      }
     },
   },
 };
