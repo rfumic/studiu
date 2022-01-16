@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-100 mx-[5%] min-h-screen pb-8 text-center">
-    <h1 class="text-6xl py-8">{{ nazivForuma }}</h1>
-    <add-post :title="nazivForuma" />
+    <h1 class="text-6xl py-8">{{ title }}</h1>
+    <add-post :title="title" />
     <forum-post
       v-for="post in postList"
       :key="post"
@@ -72,16 +72,15 @@ postList = [
   },
 ];
 
-let nazivForuma = "Strukture podataka i algoritmi";
-
 export default {
   name: "ForumPosts",
+  props: ["id", "title"],
   components: {
     ForumPost,
     AddPost,
   },
   data() {
-    return { postList, nazivForuma };
+    return { postList };
   },
 };
 </script>

@@ -185,21 +185,25 @@ export default {
         userWarn();
         return;
       }
-      const usernameTest = db
+      // POPRAVI OVO
+      /*   
+      let usernameTest =  db
         .collection("users")
         .get()
         .then((query) => {
           query.forEach((doc) => {
-            if (doc.data().username === this.username) {
+            if (doc.data().username == "TEST") {
               return true;
             }
           });
-        });
+        })
+        .catch((err) => console.log(err));
+      
       if (usernameTest) {
         this.warningText = "Korisničko ime se već upotrebljava!";
         userWarn();
         return;
-      }
+      } */
 
       this.signup();
     },

@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-100 mx-[5%] min-h-screen text-center pb-8">
     <h1 class="text-6xl py-8">Forumi</h1>
-    <large-list v-for="forum in listaForuma" :key="forum" :title="forum" />
+    <large-list v-for="forum in listaForuma" :key="forum" :obj="forum" />
   </div>
 </template>
 
@@ -47,6 +47,7 @@ export default {
           query.forEach((doc) => {
             this.listaForuma.push({
               title: doc.data().naziv,
+              id: doc.id,
             });
           });
         });

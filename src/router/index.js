@@ -30,16 +30,38 @@ const routes = [
     component: () => import("../views/Forums.vue"),
   },
   {
-    path: "/ForumPosts",
-    name: "ForumPosts",
-    component: () => import("../views/ForumPosts.vue"),
+    path: "/Forum/:title",
+    name: "Forum",
+    component: () => import("../views/Forum.vue"),
     meta: { requiresAuth: true },
+    props: true,
   },
   {
     path: "/PostView",
     name: "PostView",
     component: () => import("../views/PostView.vue"),
     meta: { requiresAuth: true },
+  },
+
+  // Redirect
+  {
+    path: "/forumi",
+    redirect: "/forums",
+  },
+  {
+    path: "/prijava",
+    redirect: "/login",
+  },
+  {
+    path: "/registracija",
+    redirect: "/signup",
+  },
+
+  // 404
+  {
+    path: "/:catchAll(.*)",
+    name: "NePostoji",
+    component: () => import("@/views/NePostoji.vue"),
   },
 ];
 
