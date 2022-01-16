@@ -15,7 +15,7 @@
       </div>
       <div class="col-span-2"></div>
       <div class="col-span-4 container h-[50%]">
-        <div class="flex items-center">
+        <div class="flex items-center" v-if="loggedIn">
           <form class="pr-2 w-full">
             <input
               type="search"

@@ -15,7 +15,7 @@ firebase.auth().onAuthStateChanged((user) => {
   console.log("app.vue pozvana je firebase fubkcija");
   if (user) {
     // User is signed in.
-    console.log("app.vue iz firebase auth funkcije: ", user.email);
+    console.log("app.vue iz firebase auth funkcije: ", user.email, user.uid);
     store.currentUser = user.email;
   } else {
     // User is not signed in.

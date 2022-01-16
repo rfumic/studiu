@@ -9,7 +9,7 @@ import "./index.css";
 
 let app;
 firebase.auth().onAuthStateChanged((user) => {
-  console.log("Iz main.js ", user);
+  console.log("Iz main.js ");
   if (!app) {
     app = createApp(App).use(router).mount("#app");
   }

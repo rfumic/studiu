@@ -8,8 +8,9 @@
 <script>
 // @ is an alias to /src
 import LargeList from "../components/LargeList.vue";
+import { db } from "@/firebase.js";
 
-let listaForuma = [];
+/* let listaForuma = [];
 
 // PRIVREMENO vvv
 listaForuma = [
@@ -23,14 +24,33 @@ listaForuma = [
   { title: "Latinski jezik" },
   { title: "Funkcijsko programiranje" },
   { title: "Funkcijsko programiranje" },
-];
+]; */
 
 export default {
   name: "Forums",
   data() {
     return {
-      listaForuma,
+      listaForuma: [],
     };
+  },
+  mounted() {
+    console.log("MOUNTED");
+    this.getForums();
+  },
+  methods: {
+    getForums() {
+      console.log("Firebase dohvat");
+
+      db.collection("forums")
+        .get()
+        .then((query) => {
+          query.forEach((doc) => {
+            this.listaForuma.push({
+              title: doc.data().naziv,
+            });
+          });
+        });
+    },
   },
   components: {
     LargeList,

@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { firebase } from "@/firebase";
+import { firebase, db } from "@/firebase";
 
 export default {
   name: "Signup",
@@ -103,7 +103,22 @@ export default {
               displayName: this.username,
             })
             .then(() => {
-              console.log("Uspješna registracija i display name");
+              console.log(
+                "Uspješna registracija i display name",
+                //↓↓↓↓ Unos korisnika u kolekciju users
+                db
+                  .collection("users")
+                  .doc(firebase.auth().currentUser.uid)
+                  .set({
+                    username: this.username,
+                  })
+                  .then(() => {
+                    console.log("Unesen korisnik u bazu");
+                  })
+                  .catch((err) => {
+                    console.error(error);
+                  })
+              );
               this.$router.replace({ name: "Forums" });
             })
             .catch((err) => {
@@ -167,6 +182,21 @@ export default {
       if (usernameCheck(this.username) || this.username.length > 15) {
         this.warningText =
           "Korisničko ime ne smije sadržavati znakove (!,%,#, ,) i više od 15 slova";
+        userWarn();
+        return;
+      }
+      const usernameTest = db
+        .collection("users")
+        .get()
+        .then((query) => {
+          query.forEach((doc) => {
+            if (doc.data().username === this.username) {
+              return true;
+            }
+          });
+        });
+      if (usernameTest) {
+        this.warningText = "Korisničko ime se već upotrebljava!";
         userWarn();
         return;
       }
