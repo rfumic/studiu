@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-100 mx-[5%] min-h-screen pb-8 text-center">
     <h1 class="text-6xl py-8">{{ title }}</h1>
-    <add-post :title="title" />
+    <add-post :title="title" :forumID="forumID" />
     <forum-post
       v-for="post in postList"
       :key="post"
@@ -16,7 +16,8 @@
 <script>
 import ForumPost from "@/components/ForumPost.vue";
 import AddPost from "@/components/AddPost.vue";
-
+import { db } from "@/firebase";
+/* 
 let postList = [];
 
 // PRIVREMENO vvv
@@ -70,7 +71,7 @@ postList = [
     username: "username7",
     time: "2 days ago",
   },
-];
+]; */
 
 export default {
   name: "ForumPosts",
@@ -80,7 +81,43 @@ export default {
     AddPost,
   },
   data() {
-    return { postList };
+    return { postList: [], forumID: this.id };
+  },
+  mounted() {
+    this.getPosts();
+  },
+  methods: {
+    async getPosts() {
+      console.log("Pozvana funkcija getPosts()");
+      await db
+        .collection("posts")
+        .where("posted_in", "==", this.forumID)
+        .get()
+        .then((query) => {
+          query.forEach((doc) => {
+            let data = doc.data();
+
+            this.postList.push({
+              title: data.title,
+              content: data.content,
+              time: data.posted_at,
+              username: data.user,
+            });
+          });
+        });
+    },
+  },
+  async created() {
+    if (!this.id) {
+      db.collection("forums")
+        .where("naziv", "==", this.title)
+        .get()
+        .then((query) => {
+          query.forEach((doc) => {
+            this.forumID = doc.id;
+          });
+        });
+    }
   },
 };
 </script>

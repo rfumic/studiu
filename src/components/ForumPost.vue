@@ -5,7 +5,7 @@
         <div class="flex justify-between w-full pb-2">
           <div class="text-sm text-gray-500">{{ username }}:</div>
 
-          <div class="text-sm text-gray-500">{{ time }}</div>
+          <div class="text-sm text-gray-500">{{ timeFormat }}</div>
         </div>
         <div
           class="cursor-pointer text-2xl hover:-translate-y-0.5 transform transition"
@@ -67,8 +67,14 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 export default {
   name: "ForumPost",
   props: ["title", "content", "username", "time"],
+  computed: {
+    timeFormat() {
+      return dayjs(this.time).format("YYYY/MM/DD  hh:mm");
+    },
+  },
 };
 </script>

@@ -37,10 +37,11 @@ const routes = [
     props: true,
   },
   {
-    path: "/PostView",
+    path: "/PostView:id",
     name: "PostView",
     component: () => import("../views/PostView.vue"),
     meta: { requiresAuth: true },
+    props: true,
   },
 
   // Redirect
@@ -55,6 +56,14 @@ const routes = [
   {
     path: "/registracija",
     redirect: "/signup",
+  },
+  {
+    path: "/post",
+    redirect: "/PostView",
+  },
+  {
+    path: "/objava",
+    redirect: "/PostView",
   },
 
   // 404
