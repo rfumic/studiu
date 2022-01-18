@@ -1,12 +1,7 @@
 <template>
   <div class="bg-gray-100 mx-[5%] min-h-screen pb-8 text-center">
-    <h1 class="text-5xl py-8">{{ nazivForuma }}</h1>
-    <forum-post
-      :title="postData.title"
-      :content="postData.content"
-      :username="postData.username"
-      :time="postData.time"
-    />
+    <h1 class="text-5xl py-8">{{}}</h1>
+    <forum-post :obj="thisPost" />
     <div class="flex justify-center items-start m-4 px-2 text-left">
       <div class="w-[50%]">
         <div class="bg-white rounded-3xl w-[75%] border border-solid">
@@ -46,17 +41,7 @@
 import ForumPost from "@/components/ForumPost.vue";
 import AddPost from "@/components/AddPost.vue";
 import ForumComment from "@/components/ForumComment.vue";
-
-let postData = {};
-
-// PRIVERMENO vvv
-postData = {
-  title: "Naslov objave1",
-  content:
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, non reiciendis.sit amet consectetur adipisicing elit. Soluta, non reiciendis.sit amet consectetur adipisicing elit. Soluta, non reiciendis.",
-  username: "username1",
-  time: "2 days ago",
-};
+import { db } from "@/firebase.js";
 
 let comData = [
   {
@@ -88,18 +73,61 @@ let comData = [
 let nazivForuma = "Strukture podataka i algoritmi";
 
 export default {
-  name: "ForumPosts",
+  name: "PostView",
   components: {
     ForumPost,
     AddPost,
     ForumComment,
   },
+  props: ["id", "obj"],
   data() {
     return {
-      postData,
       nazivForuma,
       comData,
+      thisPost: {},
+      obj2: JSON.parse(this.obj),
     };
+  },
+  async mounted() {
+    this.getPost();
+  },
+  methods: {
+    async getUsernames(userID) {
+      try {
+        let result1 = db
+          .collection("users")
+          .doc(userID)
+          .get()
+          .then((doc) => {
+            if (doc.exists) return doc.data();
+          });
+        return result1;
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    async getPost() {
+      console.log("Pozvana funkcija getPost()");
+      console.log(this.obj2.posted_in);
+      await db
+        .collection("posts")
+        .doc(this.obj2.postID)
+        .get()
+        .then(async (doc) => {
+          if (doc.exists) {
+            let data = doc.data();
+            const name = await this.getUsernames(data.user);
+            this.thisPost = {
+              title: data.title,
+              content: data.content,
+              time: data.posted_at,
+              username: name.username,
+              postID: doc.id,
+              postedIn: data.posted_in,
+            };
+          }
+        });
+    },
   },
 };
 </script>

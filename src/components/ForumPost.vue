@@ -3,17 +3,19 @@
     <div class="bg-white rounded-3xl w-[50%] border border-solid">
       <div class="px-4 py-6 flex flex-col items-start text-4xl">
         <div class="flex justify-between w-full pb-2">
-          <div class="text-sm text-gray-500">{{ username }}:</div>
+          <div class="text-sm text-gray-500">{{ obj.username }}:</div>
 
           <div class="text-sm text-gray-500">{{ timeFormat }}</div>
         </div>
+
         <div
+          @click="goToPost"
           class="cursor-pointer text-2xl hover:-translate-y-0.5 transform transition"
         >
-          {{ title }}
+          {{ obj.title }}
         </div>
         <div class="text-base py-1">
-          {{ content }}
+          {{ obj.content }}
         </div>
         <div class="flex w-full justify-between text-sm items-center">
           <div class="flex p-2 items-center">
@@ -70,10 +72,26 @@
 import dayjs from "dayjs";
 export default {
   name: "ForumPost",
-  props: ["title", "content", "username", "time"],
+  props: ["obj"],
+  data() {
+    return {
+      pass: JSON.stringify(this.obj),
+    };
+  },
   computed: {
     timeFormat() {
-      return dayjs(this.time).format("YYYY/MM/DD  hh:mm");
+      return dayjs(this.obj.time).format("YYYY/MM/DD  hh:mm");
+    },
+  },
+  methods: {
+    goToPost() {
+      this.$router.push({
+        name: "PostView",
+        params: {
+          id: this.obj.postID,
+          obj: this.pass,
+        },
+      });
     },
   },
 };

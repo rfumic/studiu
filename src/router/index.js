@@ -37,7 +37,7 @@ const routes = [
     props: true,
   },
   {
-    path: "/PostView:id",
+    path: "/PostView/:id",
     name: "PostView",
     component: () => import("../views/PostView.vue"),
     meta: { requiresAuth: true },

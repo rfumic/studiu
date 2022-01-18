@@ -10,22 +10,6 @@
 import LargeList from "../components/LargeList.vue";
 import { db } from "@/firebase.js";
 
-/* let listaForuma = [];
-
-// PRIVREMENO vvv
-listaForuma = [
-  { title: "Strukture podataka i algoritmi" },
-  { title: "Operacijski sustavi" },
-  { title: "Baze podataka" },
-  { title: "Ekonomija" },
-  { title: "Funkcijsko programiranje" },
-  { title: "Makroekonomija" },
-  { title: "Mehanika fluida" },
-  { title: "Latinski jezik" },
-  { title: "Funkcijsko programiranje" },
-  { title: "Funkcijsko programiranje" },
-]; */
-
 export default {
   name: "Forums",
   data() {

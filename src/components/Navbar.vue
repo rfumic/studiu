@@ -15,7 +15,7 @@
       </div>
       <div class="col-span-2"></div>
       <div class="col-span-4 container h-[50%]">
-        <div class="flex items-center" v-if="loggedIn">
+        <div class="flex items-center" v-show="loggedIn">
           <form class="pr-2 w-full">
             <input
               type="search"
@@ -51,19 +51,19 @@
 
       <router-link
         to="/forums"
-        v-if="loggedIn"
+        v-show="loggedIn"
         class="text-white hover:text-gray-200 hover:scale-110 hover:-rotate-1 transition ease-in-out"
         >{{ username }}</router-link
       >
       <router-link
-        v-else
+        v-show="!loggedIn"
         to="/login"
         class="text-white hover:text-gray-200 hover:scale-110 hover:-rotate-1 transition ease-in-out"
       >
         Prijava
       </router-link>
       <a
-        v-if="loggedIn"
+        v-show="loggedIn"
         href="#"
         @click.prevent="logout()"
         class="text-white hover:text-gray-200 hover:scale-110 transition ease-in-out hover:rotate-1"
@@ -72,7 +72,7 @@
       </a>
 
       <router-link
-        v-else
+        v-show="!loggedIn"
         to="/signup"
         class="text-white hover:text-gray-200 hover:scale-110 transition ease-in-out hover:rotate-1"
       >

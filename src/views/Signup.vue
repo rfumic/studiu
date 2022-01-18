@@ -125,6 +125,8 @@ export default {
         })
         .catch((error) => {
           console.error("Došlo je do greške", error);
+          this.showWarning = true;
+          this.warningText = error.message.replace("Firebase: ", "");
         });
       console.log("Nastavak");
     },
@@ -183,27 +185,19 @@ export default {
         userWarn();
         return;
       }
-      // POPRAVI OVO
-      /*   
-      let usernameTest =  db
-        .collection("users")
-        .get()
-        .then((query) => {
-          query.forEach((doc) => {
-            if (doc.data().username == "TEST") {
-              return true;
-            }
-          });
-        })
-        .catch((err) => console.log(err));
-      
-      if (usernameTest) {
-        this.warningText = "Korisničko ime se već upotrebljava!";
-        userWarn();
-        return;
-      } */
 
-      this.signup();
+      db.collection("users")
+        .where("username", "==", this.username)
+        .get()
+        .then((doc) => {
+          if (!doc.empty) {
+            this.warningText = "Korisničko ime se već upotrebljava.";
+            userWarn();
+            return;
+          } else {
+            this.signup();
+          }
+        });
     },
   },
 };

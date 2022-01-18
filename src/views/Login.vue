@@ -46,6 +46,14 @@
           </div>
         </div>
       </form>
+      <div
+        v-show="showWarning"
+        class="w-full rounded-full text-md text-white bg-red-400 m-4 flex flex-col justify-center p-2 transition-all items-center"
+      >
+        <div>
+          {{ error }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -59,6 +67,8 @@ export default {
     return {
       email: "",
       password: "",
+      error: "",
+      showWarning: false,
     };
   },
   methods: {
@@ -73,6 +83,8 @@ export default {
         })
         .catch((error) => {
           console.error("Greška", error);
+          this.error = error.message.replace("Firebase: ", "");
+          this.showWarning = true;
         });
     },
   },
