@@ -103,22 +103,20 @@ export default {
               displayName: this.username,
             })
             .then(() => {
-              console.log(
-                "Uspješna registracija i display name",
-                //↓↓↓↓ Unos korisnika u kolekciju users
-                db
-                  .collection("users")
-                  .doc(firebase.auth().currentUser.uid)
-                  .set({
-                    username: this.username,
-                  })
-                  .then(() => {
-                    console.log("Unesen korisnik u bazu");
-                  })
-                  .catch((err) => {
-                    console.error(error);
-                  })
-              );
+              console.log("Uspješna registracija i display name");
+
+              //↓↓↓↓ Unos korisnika u kolekciju users
+              db.collection("users")
+                .doc(firebase.auth().currentUser.uid)
+                .set({
+                  username: this.username,
+                })
+                .then(() => {
+                  console.log("Unesen korisnik u bazu");
+                })
+                .catch((err) => {
+                  console.error(error);
+                });
               this.$router.replace({ name: "Forums" });
             })
             .catch((err) => {

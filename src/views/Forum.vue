@@ -16,62 +16,7 @@
 <script>
 import ForumPost from "@/components/ForumPost.vue";
 import AddPost from "@/components/AddPost.vue";
-import { db } from "@/firebase";
-/* 
-let postList = [];
-
-// PRIVREMENO vvv
-postList = [
-  {
-    title: "Naslov objave1",
-    content:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, non reiciendis.sit amet consectetur adipisicing elit. Soluta, non reiciendis.sit amet consectetur adipisicing elit. Soluta, non reiciendis.",
-    username: "username1",
-    time: "2 days ago",
-  },
-  {
-    title: "Naslov objave2",
-    content:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, non reiciendis.sit amet consectetur adipisicing elit. Soluta, non reiciendis.",
-    username: "username2",
-    time: "2 days ago",
-  },
-  {
-    title: "Naslov objave3",
-    content:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, non reiciendis.",
-    username: "username3",
-    time: "3 days ago",
-  },
-  {
-    title: "Naslov objave4",
-    content:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, non reiciendis.sit amet consectetur adipisicing elit. Soluta, non reiciendis.non reiciendis.",
-    username: "username4",
-    time: "2 weeks ago",
-  },
-  {
-    title: "Naslov objave5",
-    content:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, non reiciendis.",
-    username: "username5",
-    time: "2 days ago",
-  },
-  {
-    title: "Naslov objave6",
-    content:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, non reiciendis.",
-    username: "username6",
-    time: "2 days ago",
-  },
-  {
-    title: "Naslov objave7",
-    content:
-      "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, non reiciendis.",
-    username: "username7",
-    time: "2 days ago",
-  },
-]; */
+import { db, firebase } from "@/firebase";
 
 export default {
   name: "ForumPosts",
@@ -83,25 +28,40 @@ export default {
   data() {
     return { postList: [], forumID: this.id };
   },
-  mounted() {
+  async mounted() {
     this.getPosts();
   },
   methods: {
+    async getUsernames(userID) {
+      try {
+        let result1 = db
+          .collection("users")
+          .doc(userID)
+          .get()
+          .then((doc) => {
+            if (doc.exists) return doc.data();
+          });
+        return result1;
+      } catch (err) {
+        console.error(err);
+      }
+    },
     async getPosts() {
       console.log("Pozvana funkcija getPosts()");
       await db
         .collection("posts")
+        .orderBy("posted_at", "desc")
         .where("posted_in", "==", this.forumID)
         .get()
         .then((query) => {
-          query.forEach((doc) => {
+          query.forEach(async (doc) => {
             let data = doc.data();
-
+            const name = await this.getUsernames(data.user);
             this.postList.push({
               title: data.title,
               content: data.content,
               time: data.posted_at,
-              username: data.user,
+              username: name.username,
             });
           });
         });

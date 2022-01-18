@@ -84,7 +84,7 @@ export default {
       console.log(store.currentUser);
 
       await db.collection("posts").add({
-        user: store.currentUser,
+        user: store.currentUser.userId,
         content: this.postContent,
         title: this.postTitle,
         posted_at: Date.now(),
