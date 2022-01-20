@@ -6,7 +6,7 @@
           <div class="flex justify-between w-full pb-2">
             <div class="text-sm text-gray-500">{{ username }}:</div>
 
-            <div class="text-sm text-gray-500">{{ time }}</div>
+            <div class="text-sm text-gray-500">{{ timeFormat }}</div>
           </div>
 
           <div class="text-base py-1">
@@ -49,8 +49,14 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 export default {
   name: "ForumComment",
-  props: ["username", "content", "time"],
+  props: ["username", "content", "time", "id"],
+  computed: {
+    timeFormat() {
+      return dayjs(this.time).format("YYYY/MM/DD  hh:mm");
+    },
+  },
 };
 </script>
