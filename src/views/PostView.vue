@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-100 mx-[5%] min-h-screen pb-8 text-center">
-    <h1 class="text-5xl py-8">{{}}</h1>
+    <h1 class="text-5xl py-8">{{ forumName }}</h1>
     <forum-post :obj="obj2" />
     <div class="flex justify-center items-start m-4 px-2 text-left">
       <div class="w-[50%]">
@@ -57,21 +57,22 @@ export default {
     ForumPost,
     ForumComment,
   },
-  props: ["id", "obj"],
+  props: ["id", "obj", "forumName"],
   data() {
     return {
-      nazivForuma,
       allComments: [],
       thisPost: {},
       obj2: JSON.parse(this.obj),
       newComment: "",
       commentWarning: false,
+      nazivForuma: this.forumName,
     };
   },
 
   mounted() {
     //this.getPost();
     this.getComments();
+    console.log("MOUNTED:", this.forumName);
   },
   methods: {
     removeWarning() {

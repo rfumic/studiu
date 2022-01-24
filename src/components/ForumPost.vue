@@ -90,6 +90,7 @@ export default {
         params: {
           id: this.obj.postID,
           obj: this.pass,
+          forumName: this.obj.posted_in,
         },
       });
     },
