@@ -4,9 +4,7 @@
       class="bg-white rounded w-[50%] border border-solid divide-y divide-gray-700 divide-opacity-25 cursor-pointer"
       :title="obj.title"
     >
-      <router-link
-        :to="{ name: 'Forum', params: { id: obj.id, title: obj.title } }"
-      >
+      <router-link :to="{ name: 'Forum', params: obj }">
         <div
           class="px-4 py-6 flex justify-between items-center text-2xl hover:bg-gray-100/50 transition ease-in-out duration-300"
         >

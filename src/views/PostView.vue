@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-100 mx-[5%] min-h-screen pb-8 text-center">
-    <h1 class="text-5xl py-8">{{ forumName }}</h1>
+    <h1 class="text-6xl py-8">{{ obj2.forumName }}</h1>
     <forum-post :obj="obj2" />
     <div class="flex justify-center items-start m-4 px-2 text-left">
       <div class="w-[50%]">
@@ -57,7 +57,7 @@ export default {
     ForumPost,
     ForumComment,
   },
-  props: ["id", "obj", "forumName"],
+  props: ["obj"],
   data() {
     return {
       allComments: [],

@@ -30,14 +30,14 @@ const routes = [
     component: () => import("../views/Forums.vue"),
   },
   {
-    path: "/Forum/:title",
+    path: "/Forum/:id",
     name: "Forum",
     component: () => import("../views/Forum.vue"),
     meta: { requiresAuth: true },
     props: true,
   },
   {
-    path: "/PostView/:id",
+    path: "/Post/:id",
     name: "PostView",
     component: () => import("../views/PostView.vue"),
     meta: { requiresAuth: true },

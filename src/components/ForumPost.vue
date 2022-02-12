@@ -88,11 +88,10 @@ export default {
       this.$router.push({
         name: "PostView",
         params: {
-          id: this.obj.postID,
           obj: this.pass,
-          forumName: this.obj.posted_in,
         },
       });
+      console.log("Objekt iz forumpost", this.obj);
     },
   },
 };

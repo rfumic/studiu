@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-100 mx-[5%] min-h-screen pb-8 text-center">
-    <h1 class="text-6xl py-8">{{ title }}</h1>
-    <add-post :title="title" :forumID="forumID" />
+    <h1 class="text-6xl py-8">{{ titleVar }}</h1>
+    <add-post :title="titleVar" :forumID="forumID" />
     <forum-post v-for="post in postList" :key="post" :obj="post" />
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
     AddPost,
   },
   data() {
-    return { postList: [], forumID: this.id };
+    return { postList: [], forumID: this.id, titleVar: this.title };
   },
   async mounted() {
     this.getPosts();
@@ -57,20 +57,20 @@ export default {
               username: name.username,
               postID: doc.id,
               posted_in: data.posted_in,
+              forumName: this.titleVar,
             });
           });
         });
     },
   },
   async created() {
-    if (!this.id) {
-      db.collection("forums")
-        .where("naziv", "==", this.title)
+    if (!this.titleVar) {
+      await db
+        .collection("forums")
+        .doc(this.forumID)
         .get()
-        .then((query) => {
-          query.forEach((doc) => {
-            this.forumID = doc.id;
-          });
+        .then((doc) => {
+          this.titleVar = doc.data().naziv;
         });
     }
   },
