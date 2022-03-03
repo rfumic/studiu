@@ -75,7 +75,7 @@ export default {
   props: ["obj"],
   data() {
     return {
-      pass: JSON.stringify(this.obj),
+      // pass: JSON.stringify(this.obj),
     };
   },
   computed: {
@@ -88,7 +88,7 @@ export default {
       this.$router.push({
         name: "PostView",
         params: {
-          obj: this.pass,
+          id: this.obj.postID,
         },
       });
       console.log("Objekt iz forumpost", this.obj);

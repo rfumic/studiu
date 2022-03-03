@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-100 mx-[5%] min-h-screen pb-8 text-center">
-    <h1 class="text-6xl py-8">{{ obj2.forumName }}</h1>
+    <h1 class="text-6xl py-8">{{ obj.forumName }}</h1>
     <forum-post :obj="obj2" />
     <div class="flex justify-center items-start m-4 px-2 text-left">
       <div class="w-[50%]">
@@ -57,20 +57,31 @@ export default {
     ForumPost,
     ForumComment,
   },
-  props: ["obj"],
+  //props: ["obj"],
   data() {
     return {
       allComments: [],
       thisPost: {},
-      obj2: JSON.parse(this.obj),
+      obj: this.$route.params.id,
+      obj2: {
+        title: null,
+        content: null,
+        time: null,
+        username: null,
+        postID: null,
+        posted_in: null,
+        forumName: null,
+      },
       newComment: "",
       commentWarning: false,
       nazivForuma: this.forumName,
     };
   },
-
+  created() {
+    console.log("before Create", this.forumName);
+  },
   mounted() {
-    //this.getPost();
+    this.getPost();
     this.getComments();
     console.log("MOUNTED:", this.forumName);
   },
@@ -82,6 +93,30 @@ export default {
     },
     isprazni() {
       this.newComment = "";
+    },
+    async getPost() {
+      try {
+        console.log("pozvan getPost");
+        await db
+          .collection("posts")
+          .doc(this.$route.params.id)
+          .get()
+          .then(async (doc) => {
+            if (doc.exists) {
+              const name = await this.getUsernames(doc.data().user);
+              console.log("Iz getPost ", doc.data());
+              this.obj2.title = doc.data().title;
+              this.obj2.content = doc.data().content;
+              this.obj2.time = doc.data().posted_at;
+              this.obj2.username = name.username;
+              this.obj2.postID = doc.data().postID;
+              this.obj2.posted_in = doc.data().posted_in;
+              this.obj2.forumName = doc.data().forumName;
+            }
+          });
+      } catch (err) {
+        console.error(err);
+      }
     },
     async objaviKomentar() {
       this.commentWarning = false;
@@ -121,7 +156,7 @@ export default {
       console.log("pozvana funkcija getComments()");
       let query = await db
         .collection("posts")
-        .doc(this.obj2.postID)
+        .doc(this.obj)
         .collection("comments")
         .orderBy("posted_at", "asc")
         .limit(10)
