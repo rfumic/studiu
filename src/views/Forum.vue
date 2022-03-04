@@ -58,6 +58,8 @@ export default {
               postID: doc.id,
               posted_in: data.posted_in,
               forumName: this.titleVar,
+              likes: data.likes,
+              dislikes: data.dislikes,
             });
           });
         });

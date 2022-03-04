@@ -71,6 +71,8 @@ export default {
         postID: null,
         posted_in: null,
         forumName: null,
+        likes: null,
+        dislikes: null,
       },
       newComment: "",
       commentWarning: false,
@@ -80,7 +82,7 @@ export default {
   created() {
     console.log("before Create", this.forumName);
   },
-  mounted() {
+  async mounted() {
     this.getPost();
     this.getComments();
     console.log("MOUNTED:", this.forumName);
@@ -105,13 +107,16 @@ export default {
             if (doc.exists) {
               const name = await this.getUsernames(doc.data().user);
               console.log("Iz getPost ", doc.data());
+              console.log("Isto iz getPost", doc.id);
               this.obj2.title = doc.data().title;
               this.obj2.content = doc.data().content;
               this.obj2.time = doc.data().posted_at;
               this.obj2.username = name.username;
-              this.obj2.postID = doc.data().postID;
+              this.obj2.postID = doc.id;
               this.obj2.posted_in = doc.data().posted_in;
               this.obj2.forumName = doc.data().forumName;
+              this.obj2.likes = doc.data().likes;
+              this.obj2.dislikes = doc.data().dislikes;
             }
           });
       } catch (err) {

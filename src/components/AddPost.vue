@@ -89,6 +89,8 @@ export default {
         title: this.postTitle,
         posted_at: Date.now(),
         posted_in: this.forumID,
+        likes: [],
+        dislikes: [],
       });
       (this.postTitle = ""), (this.postContent = ""), (this.isOpen = false);
       this.$parent.getPosts();
