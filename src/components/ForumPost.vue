@@ -93,6 +93,10 @@ export default {
     this.dislikes = this.obj.dislikes ? this.obj.dislikes.length : 0;
     this.userLiked = this.obj.likes.includes(store.currentUser);
     this.userDisliked = this.obj.dislikes.includes(store.currentUser);
+    console.log(
+      "Iz forumpost mounted0",
+      this.obj.likes.includes(store.currentUser)
+    );
   },
   computed: {
     timeFormat() {

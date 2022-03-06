@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-100 mx-[5%] min-h-screen pb-8 text-center">
     <h1 class="text-6xl py-8">{{ obj.forumName }}</h1>
-    <forum-post :obj="obj2" />
+    <forum-post v-if="obj2.title" :obj="obj2" />
     <div class="flex justify-center items-start m-4 px-2 text-left">
       <div class="w-[50%]">
         <div class="bg-white rounded-3xl w-[75%] border border-solid">
@@ -79,11 +79,11 @@ export default {
       nazivForuma: this.forumName,
     };
   },
-  created() {
+  async created() {
     console.log("before Create", this.forumName);
+    this.getPost();
   },
   async mounted() {
-    this.getPost();
     this.getComments();
     console.log("MOUNTED:", this.forumName);
   },
