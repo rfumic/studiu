@@ -106,7 +106,7 @@ export default {
           .then(async (doc) => {
             if (doc.exists) {
               const name = await this.getUsernames(doc.data().user);
-              console.log("Iz getPost ", doc.data());
+              console.log("Iz getPost ", doc.data().likes);
               console.log("Isto iz getPost", doc.id);
               this.obj2.title = doc.data().title;
               this.obj2.content = doc.data().content;

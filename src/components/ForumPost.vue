@@ -91,11 +91,12 @@ export default {
   async mounted() {
     this.likes = this.obj.likes ? this.obj.likes.length : 0;
     this.dislikes = this.obj.dislikes ? this.obj.dislikes.length : 0;
-    this.userLiked = this.obj.likes.includes(store.currentUser);
-    this.userDisliked = this.obj.dislikes.includes(store.currentUser);
+    this.userLiked = this.obj.likes.includes(store.currentUser.userId);
+    console.log("ovo vodje gledaj !!!!!!!!!!!!!!!!", this.obj.likes);
+    this.userDisliked = this.obj.dislikes.includes(store.currentUser.userId);
     console.log(
       "Iz forumpost mounted0",
-      this.obj.likes.includes(store.currentUser)
+      this.obj.likes.includes(store.currentUser.userId)
     );
   },
   computed: {
@@ -126,7 +127,9 @@ export default {
           .collection("posts")
           .doc(this.obj.postID)
           .update({
-            likes: firebase.firestore.FieldValue.arrayUnion(store.currentUser),
+            likes: firebase.firestore.FieldValue.arrayUnion(
+              store.currentUser.userId
+            ),
           });
       } else {
         this.likes -= 1;
@@ -135,9 +138,12 @@ export default {
           .collection("posts")
           .doc(this.obj.postID)
           .update({
-            likes: firebase.firestore.FieldValue.arrayRemove(store.currentUser),
+            likes: firebase.firestore.FieldValue.arrayRemove(
+              store.currentUser.userId
+            ),
           });
       }
+      //this.likes = await db.collection('posts').doc(this.obj.postID).get()
     },
     async dislikeToggle(calledFromClick) {
       this.userDisliked = !this.userDisliked;
@@ -153,7 +159,7 @@ export default {
           .doc(this.obj.postID)
           .update({
             dislikes: firebase.firestore.FieldValue.arrayUnion(
-              store.currentUser
+              store.currentUser.userId
             ),
           });
       } else {
@@ -164,7 +170,7 @@ export default {
           .doc(this.obj.postID)
           .update({
             dislikes: firebase.firestore.FieldValue.arrayRemove(
-              store.currentUser
+              store.currentUser.userId
             ),
           });
       }
