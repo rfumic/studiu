@@ -51,6 +51,7 @@
             </div>
           </div>
           <div
+            @click="goToPost"
             class="flex flex-col items-center cursor-pointer hover:text-orange-500 transition-all p-4"
           >
             <svg

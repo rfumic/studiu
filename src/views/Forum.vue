@@ -2,7 +2,7 @@
   <div class="bg-gray-100 mx-[5%] min-h-screen pb-8 text-center">
     <h1 class="text-6xl py-8">{{ titleVar }}</h1>
     <add-post :title="titleVar" :forumID="forumID" />
-    <forum-post v-for="post in postList" :key="post" :obj="post" />
+    <forum-post v-for="post in sortedPostList" :key="post" :obj="post" />
   </div>
 </template>
 
@@ -17,6 +17,13 @@ export default {
   components: {
     ForumPost,
     AddPost,
+  },
+  computed: {
+    sortedPostList() {
+      return this.postList.sort((a, b) => {
+        return b.time - a.time;
+      });
+    },
   },
   data() {
     return { postList: [], forumID: this.id, titleVar: this.title };
@@ -40,6 +47,7 @@ export default {
       }
     },
     async getPosts() {
+      this.postList = [];
       console.log("Pozvana funkcija getPosts()");
       await db
         .collection("posts")
