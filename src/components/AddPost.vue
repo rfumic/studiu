@@ -91,6 +91,7 @@ export default {
         posted_in: this.forumID,
         likes: [],
         dislikes: [],
+        commentCounter: 0,
       });
       (this.postTitle = ""), (this.postContent = ""), (this.isOpen = false);
       this.$parent.getPosts();

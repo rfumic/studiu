@@ -48,7 +48,7 @@
 <script>
 import ForumPost from "@/components/ForumPost.vue";
 import ForumComment from "@/components/ForumComment.vue";
-import { db } from "@/firebase.js";
+import { db, firebase } from "@/firebase.js";
 import store from "@/store";
 
 export default {
@@ -73,6 +73,7 @@ export default {
         forumName: null,
         likes: null,
         dislikes: null,
+        commentCounter: null,
       },
       newComment: "",
       commentWarning: false,
@@ -117,6 +118,7 @@ export default {
               this.obj2.forumName = doc.data().forumName;
               this.obj2.likes = doc.data().likes;
               this.obj2.dislikes = doc.data().dislikes;
+              this.obj2.commentCounter = doc.data().commentCounter;
             }
           });
       } catch (err) {
@@ -135,12 +137,21 @@ export default {
             comment: this.newComment,
             posted_at: Date.now(),
           });
+        this.incrementComments();
         this.newComment = "";
         this.getComments();
       } else {
         this.commentWarning = true;
         this.removeWarning();
       }
+    },
+    async incrementComments() {
+      await db
+        .collection("posts")
+        .doc(this.obj2.postID)
+        .update({
+          commentCounter: firebase.firestore.FieldValue.increment(1),
+        });
     },
     async getUsernames(userID) {
       try {

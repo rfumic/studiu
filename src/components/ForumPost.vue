@@ -64,7 +64,7 @@
                 d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
                 clip-rule="evenodd"
               /></svg
-            >25
+            >{{ commentCounter }}
           </div>
         </div>
       </div>
@@ -86,18 +86,14 @@ export default {
       dislikes: 0,
       userLiked: false,
       userDisliked: false,
+      commentCounter: 0,
     };
   },
   async mounted() {
-    this.likes = this.obj.likes ? this.obj.likes.length : 0;
-    this.dislikes = this.obj.dislikes ? this.obj.dislikes.length : 0;
+    this.likes = this.obj.likes.length || 0;
+    this.dislikes = this.obj.dislikes.length || 0;
     this.userLiked = this.obj.likes.includes(store.currentUser.userId);
-    console.log("ovo vodje gledaj !!!!!!!!!!!!!!!!", this.obj.likes);
-    this.userDisliked = this.obj.dislikes.includes(store.currentUser.userId);
-    console.log(
-      "Iz forumpost mounted0",
-      this.obj.likes.includes(store.currentUser.userId)
-    );
+    this.commentCounter = this.obj.commentCounter || 0;
   },
   computed: {
     timeFormat() {

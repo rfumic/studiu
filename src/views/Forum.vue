@@ -60,6 +60,7 @@ export default {
               forumName: this.titleVar,
               likes: data.likes,
               dislikes: data.dislikes,
+              commentCounter: data.commentCounter,
             });
           });
         });
