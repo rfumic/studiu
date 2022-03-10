@@ -41,6 +41,9 @@
       :content="comment.content"
       :time="comment.time"
       :id="comment.id"
+      :commentLikes="comment.commentLikes"
+      :commentDislikes="comment.commentDislikes"
+      :postId="this.$route.params.id"
     />
   </div>
 </template>
@@ -136,6 +139,8 @@ export default {
             user: store.currentUser.userId,
             comment: this.newComment,
             posted_at: Date.now(),
+            commentLikes: [],
+            commentDislikes: [],
           });
         this.incrementComments();
         this.newComment = "";
@@ -183,12 +188,14 @@ export default {
       query.forEach(async (doc) => {
         const data = doc.data();
         const name = await this.getUsernames(data.user);
-        console.log("Iz getComments", doc.data());
+        console.log("Iz getComments", doc.id);
         this.allComments.push({
-          id: data.id,
+          id: doc.id,
           username: name.username,
           content: data.comment,
           time: data.posted_at,
+          commentLikes: data.commentLikes,
+          commentDislikes: data.commentDislikes,
         });
       });
     },

@@ -94,6 +94,7 @@ export default {
     this.likes = this.obj.likes.length || 0;
     this.dislikes = this.obj.dislikes.length || 0;
     this.userLiked = this.obj.likes.includes(store.currentUser.userId);
+    this.userDisliked = this.obj.dislikes.includes(store.currentUser.userId);
     this.commentCounter = this.obj.commentCounter || 0;
   },
   computed: {
