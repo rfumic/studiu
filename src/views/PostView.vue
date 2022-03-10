@@ -122,6 +122,11 @@ export default {
               this.obj2.likes = doc.data().likes;
               this.obj2.dislikes = doc.data().dislikes;
               this.obj2.commentCounter = doc.data().commentCounter;
+            } else {
+              console.log("nepostoji");
+              this.$router.push({
+                name: "Forums",
+              });
             }
           });
       } catch (err) {
