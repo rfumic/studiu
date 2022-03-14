@@ -32,10 +32,21 @@
             </div>
           </div>
         </div>
+
+        <div
+          class="bg-white flex my-4 px-2 py-1 max-w-min rounded-xl border border-solid"
+        >
+          <select v-model="sort" class="bg-white text-center">
+            <option v-for="sortType in sortTypes" :key="sortType">
+              {{ sortType }}
+            </option>
+          </select>
+        </div>
       </div>
     </div>
+
     <forum-comment
-      v-for="comment in allComments"
+      v-for="comment in sortedComments"
       :key="comment"
       :username="comment.username"
       :content="comment.content"
@@ -81,7 +92,26 @@ export default {
       newComment: "",
       commentWarning: false,
       nazivForuma: this.forumName,
+      sort: "Najbolji",
+      sortTypes: ["Najbolji", "Najnoviji", "Najstariji"],
     };
+  },
+  computed: {
+    sortedComments() {
+      if (this.sort === "Najnoviji") {
+        return this.allComments.sort((a, b) => {
+          return b.time - a.time;
+        });
+      } else if (this.sort === "Najstariji") {
+        return this.allComments.sort((a, b) => {
+          return a.time - b.time;
+        });
+      } else {
+        return this.allComments.sort((a, b) => {
+          return b.commentLikes.length - a.commentLikes.length;
+        });
+      }
+    },
   },
   async created() {
     console.log("before Create", this.forumName);
