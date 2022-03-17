@@ -33,15 +33,5 @@
 export default {
   props: ["obj"],
   name: "LargeList",
-  methods: {
-    spaceRemove(str) {
-      return str.replace(" ", "_");
-    },
-  },
-  data() {
-    return {
-      link: this.spaceRemove(this.obj.title),
-    };
-  },
 };
 </script>
