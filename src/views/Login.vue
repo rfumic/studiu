@@ -60,6 +60,7 @@
 
 <script>
 import { firebase } from "@/firebase";
+import store from "@/store";
 
 export default {
   name: "login",
@@ -78,7 +79,27 @@ export default {
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then((result) => {
-          console.log("Uspješna prijava", result);
+          firebase
+            .auth()
+            .currentUser.getIdTokenResult()
+            .then((idTokenResult) => {
+              console.log("%c HERE!!!!", "color:green", idTokenResult.email);
+              store.currentUser = {
+                userEmail: result.user.email,
+                userId: result.user.uid,
+                userName: result.user.displayName,
+                isAdmin: idTokenResult.claims.admin,
+              };
+            });
+
+          console.log(
+            "Uspješna prijava",
+            result.user.email,
+            result.user.uid,
+            result.user.displayName
+          );
+        })
+        .then(() => {
           this.$router.replace({ name: "Forums" });
         })
         .catch((error) => {

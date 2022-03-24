@@ -104,19 +104,28 @@ console.log("Iz navbara: ", firebase.auth().currentUser);
 export default {
   // props: ["isAdmin"],
   name: "navbar",
-  created() {
+  /*  created() {
     firebase.auth().onAuthStateChanged((user) => {
-      console.log("navbar CREATED", this.loggedIn);
       this.loggedIn = !!user;
-      if (user) {
-        this.username = firebase.auth().currentUser.displayName;
-        console.log("TU GLEDAJ", user.admin);
-        this.isAdmin = user.admin;
-        //this.isAdmin = store.currentUser.isAdmin;
-        console.log("Is logged in?", this.loggedIn);
-      }
+      console.log("navbar CREATED", this.loggedIn);
+      //if (user) {
+      this.username = firebase.auth().currentUser
+        ? firebase.auth().currentUser.displayName
+        : null;
+      console.log("TU GLEDAJ", store.currentUser.isAdmin);
+      //this.isAdmin = store.currentUser.isAdmin;
+      console.log("Is logged in?", this.loggedIn);
+      //}
     });
-    console.log("isAdmin? ", this.isAdmin);
+
+    // console.log("isAdmin? ", this.isAdmin);
+    console.log("CREATED U NAVBAR", store.currentUser);
+  }, */
+
+  mounted() {
+    //this.loggedIn = !!store.currentUser;
+    //  this.username = store.currentUser.userName;
+    console.log("Mounta li se ovo?");
   },
 
   data() {
@@ -127,11 +136,31 @@ export default {
     };
   },
 
+  /*  computed: {
+    isAdmin: function () {
+      console.log("Pokrenuo se izadmincomoputed");
+      return store.currentUser ? store.currentUser.isAdmin : false;
+    },
+    loggedIn: function () {
+      return !!store.currentUser;
+    },
+    username: function () {
+      return store.currentUser ? store.currentUser.userName : "";
+    },
+  }, */
+  watch: {
+    $route(to, from) {
+      this.isAdmin = store.currentUser ? store.currentUser.isAdmin : false;
+      this.loggedIn = !!store.currentUser;
+      this.username = store.currentUser ? store.currentUser.userName : "";
+    },
+  },
   methods: {
     async logout() {
       try {
         const data = await firebase.auth().signOut();
         console.log(data);
+        store.currentUser = null;
         this.$router.replace({ name: "Login" });
       } catch (err) {
         console.error(err);
