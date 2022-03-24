@@ -120,6 +120,7 @@ export default {
   async mounted() {
     this.getComments();
     console.log("MOUNTED:", this.forumName);
+    console.log("PREGLED STORE.JS", store.currentUser);
   },
   methods: {
     removeWarning() {

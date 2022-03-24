@@ -14,13 +14,25 @@ console.log("App.vue prije pozivanja funkcijed: ", store.currentUser);
 firebase.auth().onAuthStateChanged((user) => {
   console.log("app.vue pozvana je firebase fubkcija");
   if (user) {
-    // User is signed in.
-    console.log("app.vue iz firebase auth funkcije: ", user.email, user.uid);
-    store.currentUser = {
-      userEmail: user.email,
-      userId: user.uid,
-      userName: user.displayName,
-    };
+    user
+      .getIdTokenResult()
+      .then((idTokenResult) => {
+        // console.log("ONAJ TOKEN ONO", idTokenResult.claims);
+        // User is signed in.
+        console.log(
+          "app.vue iz firebase auth funkcije: ",
+          user.email,
+          user.uid
+        );
+        user.admin = idTokenResult.claims.admin;
+        store.currentUser = {
+          userEmail: user.email,
+          userId: user.uid,
+          userName: user.displayName,
+          //isAdmin: idTokenResult.claims.admin,
+        };
+      })
+      .catch((err) => console.error(err));
   } else {
     // User is not signed in.
     console.log("No user");
@@ -34,11 +46,13 @@ export default {
   data() {
     return {
       store,
+      //isAdmin: false,
     };
   },
   components: {
     Navbar,
   },
+  mounted() {},
 };
 </script>
 
