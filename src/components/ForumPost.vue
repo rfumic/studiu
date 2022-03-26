@@ -11,10 +11,20 @@
         <div
           @click="goToPost"
           class="cursor-pointer text-2xl hover:-translate-y-0.5 transform transition"
+          :class="{
+            italic: deletedPost === true,
+            'text-gray-400': deletedPost === true,
+          }"
         >
           {{ obj.title }}
         </div>
-        <div class="text-base py-1">
+        <div
+          class="text-base py-1"
+          :class="{
+            italic: deletedPost === true,
+            'text-gray-400': deletedPost === true,
+          }"
+        >
           {{ obj.content }}
         </div>
         <div class="flex w-full justify-between text-sm items-center">
@@ -50,22 +60,43 @@
               {{ dislikes }}
             </div>
           </div>
-          <div
-            @click="goToPost"
-            class="flex flex-col items-center cursor-pointer hover:text-orange-500 transition-all p-4"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+          <div class="flex items-center">
+            <div
+              @click="goToPost"
+              class="flex flex-col items-center cursor-pointer hover:text-orange-500 transition-all p-4"
             >
-              <path
-                fill-rule="evenodd"
-                d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
-                clip-rule="evenodd"
-              /></svg
-            >{{ commentCounter }}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
+                  clip-rule="evenodd"
+                /></svg
+              >{{ commentCounter }}
+            </div>
+            <div
+              class="flex flex-col items-center cursor-pointer hover:text-red-500 transition-all p-4"
+              v-show="isAdmin"
+              @click="deletePost()"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              Obriši
+            </div>
           </div>
         </div>
       </div>
@@ -88,6 +119,8 @@ export default {
       userLiked: false,
       userDisliked: false,
       commentCounter: 0,
+      isAdmin: store.currentUser.isAdmin,
+      deletedPost: false,
     };
   },
   async mounted() {
@@ -172,6 +205,23 @@ export default {
             ),
           });
       }
+    },
+    async deletePost() {
+      console.log("Called delete post");
+
+      await db
+        .collection("posts")
+        .doc(this.obj.postID)
+        .delete()
+        .then(() => {
+          console.log("Document successfully deleted!");
+          this.obj.title = "Obrisan post";
+          this.obj.content = "Obrisan post";
+          this.deletedPost = true;
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error);
+        });
     },
   },
 };
