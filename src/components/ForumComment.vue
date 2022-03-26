@@ -1,5 +1,8 @@
 <template>
-  <div class="flex justify-center items-start m-4 px-2 text-left">
+  <div
+    class="flex justify-center items-start m-4 px-2 text-left"
+    v-show="!deletedComment"
+  >
     <div class="w-[50%]">
       <div class="bg-white rounded-3xl w-[75%] border border-solid">
         <div class="px-4 py-6 flex flex-col items-start text-4xl">
@@ -45,6 +48,25 @@
                 {{ dislikes }}
               </div>
             </div>
+            <div
+              class="flex flex-col items-center cursor-pointer hover:text-red-500 transition-all p-4"
+              v-show="isAdmin"
+              @click="deleteComment()"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              Obriši
+            </div>
           </div>
         </div>
       </div>
@@ -79,6 +101,8 @@ export default {
       dislikes: 0,
       userLiked: false,
       userDisliked: false,
+      isAdmin: store.currentUser.isAdmin,
+      deletedComment: false,
     };
   },
   async mounted() {
@@ -89,6 +113,21 @@ export default {
     console.log("KOMENTARI", this.id);
   },
   methods: {
+    async deleteComment() {
+      await db
+        .collection("posts")
+        .doc(this.postId)
+        .collection("comments")
+        .doc(this.id)
+        .delete()
+        .then(() => {
+          console.log("Document successfully deleted!");
+          this.deletedComment = true;
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error);
+        });
+    },
     async likeToggle(calledFromClick) {
       this.userLiked = !this.userLiked;
       if (calledFromClick) {
