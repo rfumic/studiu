@@ -113,21 +113,6 @@ export default {
     console.log("KOMENTARI", this.id);
   },
   methods: {
-    async deleteComment() {
-      await db
-        .collection("posts")
-        .doc(this.postId)
-        .collection("comments")
-        .doc(this.id)
-        .delete()
-        .then(() => {
-          console.log("Document successfully deleted!");
-          this.deletedComment = true;
-        })
-        .catch((error) => {
-          console.error("Error removing document: ", error);
-        });
-    },
     async likeToggle(calledFromClick) {
       this.userLiked = !this.userLiked;
       if (calledFromClick) {
@@ -195,6 +180,27 @@ export default {
             ),
           });
       }
+    },
+    async deleteComment() {
+      await db
+        .collection("posts")
+        .doc(this.postId)
+        .update({
+          commentCounter: firebase.firestore.FieldValue.increment(-1),
+        });
+      await db
+        .collection("posts")
+        .doc(this.postId)
+        .collection("comments")
+        .doc(this.id)
+        .delete()
+        .then(() => {
+          console.log("Document successfully deleted!");
+          this.deletedComment = true;
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error);
+        });
     },
   },
 };
