@@ -32,6 +32,7 @@
       </div>
     </div>
 
+    <add-forum />
     <large-list v-for="forum in filteredForums" :key="forum" :obj="forum" />
   </div>
 </template>
@@ -39,6 +40,7 @@
 <script>
 // @ is an alias to /src
 import LargeList from "../components/LargeList.vue";
+import AddForum from "../components/AddForum.vue";
 import { db } from "@/firebase.js";
 
 export default {
@@ -78,6 +80,7 @@ export default {
   },
   components: {
     LargeList,
+    AddForum,
   },
 };
 </script>
