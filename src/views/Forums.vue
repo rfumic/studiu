@@ -2,7 +2,7 @@
   <div class="bg-gray-100 mx-[5%] min-h-screen text-center pb-8">
     <h1 class="text-6xl py-8">Forumi</h1>
     <div class="flex flex-col items-center mb-6">
-      <div class="flex items-center w-1/2">
+      <div class="flex items-center w-1/3">
         <form class="pr-2 w-full">
           <input
             v-model="search"

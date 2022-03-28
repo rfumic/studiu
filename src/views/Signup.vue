@@ -110,6 +110,7 @@ export default {
                 .doc(firebase.auth().currentUser.uid)
                 .set({
                   username: this.username,
+                  isBanned: false,
                 })
                 .then(() => {
                   console.log("Unesen korisnik u bazu");

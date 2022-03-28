@@ -59,10 +59,11 @@
 </template>
 
 <script>
-import { firebase } from "@/firebase";
+import { firebase, db } from "@/firebase";
 import store from "@/store";
 
 export default {
+  props: ["warning"],
   name: "login",
   data() {
     return {
@@ -72,7 +73,42 @@ export default {
       showWarning: false,
     };
   },
+  mounted() {
+    if (this.warning) {
+      this.error = this.warning;
+      this.showWarning = true;
+    }
+  },
   methods: {
+    async logout(email) {
+      try {
+        const data = await firebase.auth().signOut();
+        console.log(data);
+        store.currentUser = null;
+        this.$router.replace({
+          name: "Login",
+          params: {
+            warning: `Korisnik ${email} je blokiran sa Studiu`,
+          },
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    async isUserBanned(uid) {
+      try {
+        let result = await db
+          .collection("users")
+          .doc(uid)
+          .get()
+          .then((doc) => {
+            if (doc.exists) return doc.data().isBanned;
+          });
+        return result;
+      } catch (err) {
+        console.error(err);
+      }
+    },
     login() {
       console.log("Login", this.email);
       firebase
@@ -82,14 +118,19 @@ export default {
           firebase
             .auth()
             .currentUser.getIdTokenResult()
-            .then((idTokenResult) => {
-              console.log("%c HERE!!!!", "color:green", idTokenResult.email);
-              store.currentUser = {
-                userEmail: result.user.email,
-                userId: result.user.uid,
-                userName: result.user.displayName,
-                isAdmin: idTokenResult.claims.admin,
-              };
+            .then(async (idTokenResult) => {
+              const isBanned = await this.isUserBanned(result.user.uid);
+              if (isBanned) {
+                this.logout(this.email);
+              } else {
+                console.log("%c HERE!!!!", "color:green", idTokenResult.email);
+                store.currentUser = {
+                  userEmail: result.user.email,
+                  userId: result.user.uid,
+                  userName: result.user.displayName,
+                  isAdmin: idTokenResult.claims.admin,
+                };
+              }
             });
 
           console.log(
