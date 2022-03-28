@@ -55,6 +55,7 @@
       :commentLikes="comment.commentLikes"
       :commentDislikes="comment.commentDislikes"
       :postId="this.$route.params.id"
+      :userId="comment.userId"
     />
   </div>
 </template>
@@ -153,6 +154,7 @@ export default {
               this.obj2.likes = doc.data().likes;
               this.obj2.dislikes = doc.data().dislikes;
               this.obj2.commentCounter = doc.data().commentCounter;
+              this.obj2.userId = doc.data().user;
             } else {
               console.log("nepostoji");
               this.$router.push({
@@ -232,6 +234,7 @@ export default {
           time: data.posted_at,
           commentLikes: data.commentLikes,
           commentDislikes: data.commentDislikes,
+          userId: data.user,
         });
       });
     },

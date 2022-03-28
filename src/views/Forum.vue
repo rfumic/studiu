@@ -111,6 +111,7 @@ export default {
               likes: data.likes,
               dislikes: data.dislikes,
               commentCounter: data.commentCounter,
+              userId: data.user,
             });
           });
         });

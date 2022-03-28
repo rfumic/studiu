@@ -5,7 +5,9 @@
         <div class="flex justify-between w-full pb-2">
           <div class="text-sm text-gray-500">{{ obj.username }}:</div>
 
-          <div class="text-sm text-gray-500">{{ timeFormat }}</div>
+          <div class="text-sm text-gray-500" title="Vrijeme objave">
+            {{ timeFormat }}
+          </div>
         </div>
 
         <div
@@ -29,7 +31,7 @@
         </div>
         <div class="flex w-full justify-between text-sm items-center">
           <div class="flex p-2 items-center text-center">
-            <div class="p-2">
+            <div class="p-2" title="Sviđa mi se">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-4 w-4 hover:text-emerald-500 transition-all cursor-pointer active:text-emerald-600 active:border rounded-full"
@@ -44,7 +46,7 @@
               </svg>
               {{ likes }}
             </div>
-            <div class="p-2">
+            <div class="p-2" title="Ne sviđa mi se">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-4 w-4 hover:text-red-500 transition-all cursor-pointer active:text-red-600 active:border rounded-full"
@@ -79,6 +81,7 @@
               >{{ commentCounter }}
             </div>
             <div
+              title="Obriši objavu"
               class="flex flex-col items-center cursor-pointer hover:text-red-500 transition-all p-4"
               v-show="isAdmin"
               @click="deletePost()"
@@ -96,6 +99,26 @@
                 ></path>
               </svg>
               Obriši
+            </div>
+            <div
+              title="Blokiraj korisnika"
+              class="flex flex-col items-center cursor-pointer hover:text-red-500 transition-all p-4"
+              v-show="isAdmin"
+              @click="banUser()"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              Blokiraj
             </div>
           </div>
         </div>
@@ -222,6 +245,14 @@ export default {
         .catch((error) => {
           console.error("Error removing document: ", error);
         });
+    },
+    async banUser() {
+      console.log("Called ban user");
+
+      await db.collection("users").doc(this.obj.userId).update({
+        isBanned: true,
+        username: "[korisnik_ne_postoji]",
+      });
     },
   },
 };
