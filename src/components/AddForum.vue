@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { db, firebase } from "@/firebase";
+import { db } from "@/firebase";
 import store from "@/store";
 
 export default {
@@ -75,11 +75,7 @@ export default {
   },
   methods: {
     async dodajForum() {
-      console.log(this.postTitle);
-      console.log(this.postContent);
-      console.log(this.title);
-      console.log(store.currentUser);
-
+      // ↓↓↓ Provjerava da ime foruma nije samo whitespace
       if (!this.forumName.replace(/\s/g, "").length) {
         this.showError = true;
       } else {

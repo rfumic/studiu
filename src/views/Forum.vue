@@ -96,7 +96,7 @@
 <script>
 import ForumPost from "@/components/ForumPost.vue";
 import AddPost from "@/components/AddPost.vue";
-import { db, firebase } from "@/firebase";
+import { db } from "@/firebase";
 
 export default {
   name: "ForumPosts",
@@ -105,6 +105,7 @@ export default {
     ForumPost,
     AddPost,
   },
+
   computed: {
     searchPostList() {
       return this.postList.filter((post) => {
@@ -115,6 +116,7 @@ export default {
       });
     },
   },
+
   data() {
     return {
       postList: [],
@@ -126,6 +128,7 @@ export default {
       sortingByNewest: true,
     };
   },
+
   async mounted() {
     this.getPosts();
   },
@@ -147,7 +150,6 @@ export default {
     },
 
     async getPosts(loadMore = false, orderBy = "desc") {
-      console.log("Pozvana funkcija getPosts()");
       let ref = null;
 
       // ↓↓↓ Provjera poziva li se funkcija iz mounteda ili za dodatne podatke
@@ -200,6 +202,7 @@ export default {
         this.loadMoreButton = true;
       }
     },
+
     async newestPosts() {
       this.postList = [];
 
@@ -213,6 +216,7 @@ export default {
       this.sortingByNewest = false;
     },
   },
+
   async created() {
     // ↓↓↓ Kod refresh-a se izgubi title
     if (!this.titleVar) {

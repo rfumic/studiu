@@ -91,6 +91,7 @@ export default {
       warningText: "",
     };
   },
+
   methods: {
     signup() {
       firebase
@@ -103,8 +104,6 @@ export default {
               displayName: this.username,
             })
             .then(() => {
-              console.log("Uspješna registracija i display name");
-
               //↓↓↓↓ Unos korisnika u kolekciju users
               db.collection("users")
                 .doc(firebase.auth().currentUser.uid)
@@ -113,7 +112,7 @@ export default {
                   isBanned: false,
                 })
                 .then(() => {
-                  console.log("Unesen korisnik u bazu");
+                  // pass;
                 })
                 .catch((err) => {
                   console.error(error);
@@ -121,20 +120,18 @@ export default {
               this.$router.replace({ name: "Forums" });
             })
             .catch((err) => {
-              console.error("Došlo je do greške", err);
+              console.error(err);
             });
         })
         .catch((error) => {
-          console.error("Došlo je do greške", error);
+          console.error(error);
           this.showWarning = true;
           this.warningText = error.message.replace("Firebase: ", "");
         });
-      console.log("Nastavak");
     },
+
     passwordCheck() {
       this.showWarning = false;
-      console.log("Pozvana je funkcija za provjeru lozinke");
-
       const userWarn = () => {
         if (this.showWarning == false) this.showWarning = true;
       };

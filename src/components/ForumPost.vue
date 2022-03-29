@@ -131,12 +131,12 @@
 import dayjs from "dayjs";
 import { firebase, db } from "@/firebase.js";
 import store from "@/store";
+
 export default {
   name: "ForumPost",
   props: ["obj"],
   data() {
     return {
-      // pass: JSON.stringify(this.obj),
       likes: 0,
       dislikes: 0,
       userLiked: false,
@@ -146,6 +146,7 @@ export default {
       deletedPost: false,
     };
   },
+
   async mounted() {
     this.likes = this.obj.likes.length || 0;
     this.dislikes = this.obj.dislikes.length || 0;
@@ -153,11 +154,13 @@ export default {
     this.userDisliked = this.obj.dislikes.includes(store.currentUser.userId);
     this.commentCounter = this.obj.commentCounter || 0;
   },
+
   computed: {
     timeFormat() {
       return dayjs(this.obj.time).format("YYYY/MM/DD  hh:mm");
     },
   },
+
   methods: {
     goToPost() {
       this.$router.push({
@@ -166,8 +169,8 @@ export default {
           id: this.obj.postID,
         },
       });
-      console.log("Objekt iz forumpost", this.obj);
     },
+
     async likeToggle(calledFromClick) {
       this.userLiked = !this.userLiked;
       if (calledFromClick) {
@@ -197,8 +200,8 @@ export default {
             ),
           });
       }
-      //this.likes = await db.collection('posts').doc(this.obj.postID).get()
     },
+
     async dislikeToggle(calledFromClick) {
       this.userDisliked = !this.userDisliked;
       if (calledFromClick) {
@@ -229,26 +232,24 @@ export default {
           });
       }
     },
-    async deletePost() {
-      console.log("Called delete post");
 
+    async deletePost() {
       await db
         .collection("posts")
         .doc(this.obj.postID)
         .delete()
         .then(() => {
-          console.log("Document successfully deleted!");
+          console.info(`%cObjava je uspjesno uklonjena`, "color: lime");
           this.obj.title = "Obrisan post";
           this.obj.content = "Obrisan post";
           this.deletedPost = true;
         })
         .catch((error) => {
-          console.error("Error removing document: ", error);
+          console.error("Greska pri uklanjanju objave: ", error);
         });
     },
-    async banUser() {
-      console.log("Called ban user");
 
+    async banUser() {
       await db.collection("users").doc(this.obj.userId).update({
         isBanned: true,
         username: "[korisnik_ne_postoji]",

@@ -38,23 +38,27 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import LargeList from "../components/LargeList.vue";
 import AddForum from "../components/AddForum.vue";
 import { db } from "@/firebase.js";
 
 export default {
   name: "Forums",
+  components: {
+    LargeList,
+    AddForum,
+  },
   data() {
     return {
       listaForuma: [],
       search: "",
     };
   },
+
   mounted() {
-    console.log("MOUNTED");
     this.getForums();
   },
+
   computed: {
     filteredForums() {
       return this.listaForuma.filter((forum) => {
@@ -62,10 +66,9 @@ export default {
       });
     },
   },
+
   methods: {
     getForums() {
-      console.log("Firebase dohvat");
-
       db.collection("forums")
         .get()
         .then((query) => {
@@ -77,10 +80,6 @@ export default {
           });
         });
     },
-  },
-  components: {
-    LargeList,
-    AddForum,
   },
 };
 </script>

@@ -1,8 +1,4 @@
 <template>
-  <!-- <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div> -->
   <div class="bg-gray-100 mx-[5%] h-screen text-center">
     <div
       class="w-[59.66%] h-[49.2%] relative left-[20%] top-[12.5%] flex flex-col"
@@ -37,6 +33,5 @@
 <script>
 export default {
   name: "Home",
-  components: {},
 };
 </script>

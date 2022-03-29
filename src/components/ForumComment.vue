@@ -135,7 +135,6 @@ export default {
     this.dislikes = this.commentDislikes.length;
     this.userLiked = this.commentLikes.includes(store.currentUser.userId);
     this.userDisliked = this.commentDislikes.includes(store.currentUser.userId);
-    console.log("KOMENTARI", this.id);
   },
   methods: {
     async likeToggle(calledFromClick) {
@@ -220,16 +219,14 @@ export default {
         .doc(this.id)
         .delete()
         .then(() => {
-          console.log("Document successfully deleted!");
+          console.info(`%cKomentar uspjesno uklonjen`, "color: lime");
           this.deletedComment = true;
         })
         .catch((error) => {
-          console.error("Error removing document: ", error);
+          console.error("Greska pri uklanjanju komentara: ", error);
         });
     },
     async banUser() {
-      console.log("Called ban user");
-
       await db.collection("users").doc(this.userId).update({
         isBanned: true,
         username: "[korisnik_ne_postoji]",

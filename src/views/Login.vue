@@ -73,17 +73,18 @@ export default {
       showWarning: false,
     };
   },
+
   mounted() {
     if (this.warning) {
       this.error = this.warning;
       this.showWarning = true;
     }
   },
+
   methods: {
     async logout(email) {
       try {
         const data = await firebase.auth().signOut();
-        console.log(data);
         store.currentUser = null;
         this.$router.replace({
           name: "Login",
@@ -95,6 +96,7 @@ export default {
         console.error(err);
       }
     },
+
     async isUserBanned(uid) {
       try {
         let result = await db
@@ -109,8 +111,8 @@ export default {
         console.error(err);
       }
     },
+
     login() {
-      console.log("Login", this.email);
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
@@ -123,7 +125,6 @@ export default {
               if (isBanned) {
                 this.logout(this.email);
               } else {
-                console.log("%c HERE!!!!", "color:green", idTokenResult.email);
                 store.currentUser = {
                   userEmail: result.user.email,
                   userId: result.user.uid,
@@ -132,19 +133,12 @@ export default {
                 };
               }
             });
-
-          console.log(
-            "Uspješna prijava",
-            result.user.email,
-            result.user.uid,
-            result.user.displayName
-          );
         })
         .then(() => {
           this.$router.replace({ name: "Forums" });
         })
         .catch((error) => {
-          console.error("Greška", error);
+          console.error(error);
           this.error = error.message.replace("Firebase: ", "");
           this.showWarning = true;
         });

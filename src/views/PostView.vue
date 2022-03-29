@@ -72,7 +72,7 @@ export default {
     ForumPost,
     ForumComment,
   },
-  //props: ["obj"],
+
   data() {
     return {
       allComments: [],
@@ -97,6 +97,7 @@ export default {
       sortTypes: ["Najbolji", "Najnoviji", "Najstariji"],
     };
   },
+
   computed: {
     sortedComments() {
       if (this.sort === "Najnoviji") {
@@ -116,23 +117,24 @@ export default {
     },
   },
   async created() {
-    console.log("before Create", this.forumName);
     this.getPost();
   },
+
   async mounted() {
     this.getComments();
-    console.log("MOUNTED:", this.forumName);
-    console.log("PREGLED STORE.JS", store.currentUser);
   },
+
   methods: {
     removeWarning() {
       setTimeout(() => {
         this.commentWarning = false;
       }, 2500);
     },
+
     isprazni() {
       this.newComment = "";
     },
+
     async getPost() {
       try {
         console.log("pozvan getPost");
@@ -143,8 +145,6 @@ export default {
           .then(async (doc) => {
             if (doc.exists) {
               const name = await this.getUsernames(doc.data().user);
-              console.log("Iz getPost ", doc.data().likes);
-              console.log("Isto iz getPost", doc.id);
               this.obj2.title = doc.data().title;
               this.obj2.content = doc.data().content;
               this.obj2.time = doc.data().posted_at;
@@ -157,7 +157,6 @@ export default {
               this.obj2.commentCounter = doc.data().commentCounter;
               this.obj2.userId = doc.data().user;
             } else {
-              console.log("nepostoji");
               this.$router.push({
                 name: "Forums",
               });
@@ -167,6 +166,7 @@ export default {
         console.error(err);
       }
     },
+
     async objaviKomentar() {
       this.commentWarning = false;
       if (this.newComment !== "") {
@@ -213,7 +213,6 @@ export default {
     },
 
     async getComments() {
-      console.log("pozvana funkcija getComments()");
       let query = await db
         .collection("posts")
         .doc(this.obj)
@@ -227,7 +226,6 @@ export default {
       query.forEach(async (doc) => {
         const data = doc.data();
         const name = await this.getUsernames(data.user);
-        console.log("Iz getComments", doc.id);
         this.allComments.push({
           id: doc.id,
           username: name.username,

@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { db, firebase } from "@/firebase";
+import { db } from "@/firebase";
 import store from "@/store";
 
 export default {
@@ -78,11 +78,6 @@ export default {
   },
   methods: {
     async objaviPost() {
-      console.log(this.postTitle);
-      console.log(this.postContent);
-      console.log(this.title);
-      console.log(store.currentUser);
-
       await db.collection("posts").add({
         user: store.currentUser.userId,
         content: this.postContent,
