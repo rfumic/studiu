@@ -108,6 +108,7 @@ export default {
           return a.time - b.time;
         });
       } else {
+        console.log("Da pozvalo se");
         return this.allComments.sort((a, b) => {
           return b.commentLikes.length - a.commentLikes.length;
         });

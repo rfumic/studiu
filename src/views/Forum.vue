@@ -1,7 +1,43 @@
 <template>
   <div class="bg-gray-100 mx-[5%] min-h-screen pb-8 text-center">
     <h1 class="text-6xl py-8">{{ titleVar }}</h1>
-    <div class="flex flex-col items-center mb-6">
+    <div
+      class="flex flex-row justify-center mb-6 items-center"
+      title="Sortiraj po vremenu objave"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+      <button
+        class="bg-white ml-4 mr-2 border border-solid rounded-xl p-2 hover:bg-gray-100/50 transition ease-in-out duration-300"
+        title="Najnovije objave"
+        @click="newestPosts()"
+        :class="{
+          'bg-orange-100 border-none hover:bg-orange-100/50': sortingByNewest,
+        }"
+      >
+        Najnovije</button
+      ><button
+        class="bg-white mr-4 ml-2 border border-solid rounded-xl p-2 hover:bg-gray-100/50 transition ease-in-out duration-300"
+        title="Najstarije objave"
+        @click="oldestPosts()"
+        :class="{
+          'bg-orange-100 border-none hover:bg-orange-100/50': !sortingByNewest,
+        }"
+      >
+        Najstarije
+      </button>
       <div class="flex items-center w-1/3">
         <form class="pr-2 w-full">
           <input
@@ -31,8 +67,9 @@
         </svg>
       </div>
     </div>
+
     <add-post :title="titleVar" :forumID="forumID" />
-    <forum-post v-for="post in postList" :key="post" :obj="post" />
+    <forum-post v-for="post in searchPostList" :key="post" :obj="post" />
     <div class="flex flex-col items-center">
       <div
         @click="getPosts(true)"
@@ -68,20 +105,16 @@ export default {
     ForumPost,
     AddPost,
   },
-  /*   computed: {
-    sortedPostList() {
-      return this.postList
-        .sort((a, b) => {
-          return b.time - a.time;
-        })
-        .filter((post) => {
-          return (
-            post.title.toLowerCase().match(this.search.toLowerCase()) ||
-            post.content.toLowerCase().match(this.search.toLowerCase())
-          );
-        });
+  computed: {
+    searchPostList() {
+      return this.postList.filter((post) => {
+        return (
+          post.title.toLowerCase().match(this.search.toLowerCase()) ||
+          post.content.toLowerCase().match(this.search.toLowerCase())
+        );
+      });
     },
-  }, */
+  },
   data() {
     return {
       postList: [],
@@ -90,11 +123,13 @@ export default {
       search: "",
       lastDoc: null,
       loadMoreButton: true,
+      sortingByNewest: true,
     };
   },
   async mounted() {
-    this.getPosts(false);
+    this.getPosts();
   },
+
   methods: {
     async getUsernames(userID) {
       try {
@@ -111,7 +146,7 @@ export default {
       }
     },
 
-    async getPosts(loadMore) {
+    async getPosts(loadMore = false, orderBy = "desc") {
       console.log("Pozvana funkcija getPosts()");
       let ref = null;
 
@@ -120,14 +155,14 @@ export default {
         ref = db
           .collection("posts")
           .where("posted_in", "==", this.forumID)
-          .orderBy("posted_at", "desc")
+          .orderBy("posted_at", orderBy)
           .startAfter(this.lastDoc || 0)
           .limit(10);
       } else {
         ref = db
           .collection("posts")
           .where("posted_in", "==", this.forumID)
-          .orderBy("posted_at", "desc")
+          .orderBy("posted_at", orderBy)
           .limit(10);
       }
 
@@ -164,6 +199,18 @@ export default {
       } else {
         this.loadMoreButton = true;
       }
+    },
+    async newestPosts() {
+      this.postList = [];
+
+      this.getPosts(false, "desc");
+      this.sortingByNewest = true;
+    },
+    async oldestPosts() {
+      this.postList = [];
+
+      this.getPosts(false, "asc");
+      this.sortingByNewest = false;
     },
   },
   async created() {
