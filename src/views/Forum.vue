@@ -32,7 +32,27 @@
       </div>
     </div>
     <add-post :title="titleVar" :forumID="forumID" />
-    <forum-post v-for="post in sortedPostList" :key="post" :obj="post" />
+    <forum-post v-for="post in postList" :key="post" :obj="post" />
+    <div class="flex flex-col items-center">
+      <div
+        @click="getPosts(true)"
+        v-show="loadMoreButton"
+        class="flex flex-row align-center border bg-white border-solid items-center cursor-pointer rounded-md p-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -48,7 +68,7 @@ export default {
     ForumPost,
     AddPost,
   },
-  computed: {
+  /*   computed: {
     sortedPostList() {
       return this.postList
         .sort((a, b) => {
@@ -61,17 +81,19 @@ export default {
           );
         });
     },
-  },
+  }, */
   data() {
     return {
       postList: [],
       forumID: this.id,
       titleVar: this.title,
       search: "",
+      lastDoc: null,
+      loadMoreButton: true,
     };
   },
   async mounted() {
-    this.getPosts();
+    this.getPosts(false);
   },
   methods: {
     async getUsernames(userID) {
@@ -88,36 +110,64 @@ export default {
         console.error(err);
       }
     },
-    async getPosts() {
-      this.postList = [];
+
+    async getPosts(loadMore) {
       console.log("Pozvana funkcija getPosts()");
-      await db
-        .collection("posts")
-        //.orderBy("posted_at", "desc")
-        .where("posted_in", "==", this.forumID)
-        .get()
-        .then((query) => {
-          query.forEach(async (doc) => {
-            let data = doc.data();
-            const name = await this.getUsernames(data.user);
-            this.postList.push({
-              title: data.title,
-              content: data.content,
-              time: data.posted_at,
-              username: name.username,
-              postID: doc.id,
-              posted_in: data.posted_in,
-              forumName: this.titleVar,
-              likes: data.likes,
-              dislikes: data.dislikes,
-              commentCounter: data.commentCounter,
-              userId: data.user,
-            });
+      let ref = null;
+
+      // ↓↓↓ Provjera poziva li se funkcija iz mounteda ili za dodatne podatke
+      if (loadMore) {
+        ref = db
+          .collection("posts")
+          .where("posted_in", "==", this.forumID)
+          .orderBy("posted_at", "desc")
+          .startAfter(this.lastDoc || 0)
+          .limit(10);
+      } else {
+        ref = db
+          .collection("posts")
+          .where("posted_in", "==", this.forumID)
+          .orderBy("posted_at", "desc")
+          .limit(10);
+      }
+
+      const getData = await ref.get();
+
+      try {
+        getData.docs.forEach(async (doc) => {
+          let data = doc.data();
+          const name = await this.getUsernames(data.user);
+          this.postList.push({
+            title: data.title,
+            content: data.content,
+            time: data.posted_at,
+            username: name.username,
+            postID: doc.id,
+            posted_in: data.posted_in,
+            forumName: this.titleVar,
+            likes: data.likes,
+            dislikes: data.dislikes,
+            commentCounter: data.commentCounter,
+            userId: data.user,
           });
         });
+      } catch (error) {
+        console.error(error);
+      }
+
+      // ↓↓↓ Sprema zadnji dohvaceni dokument zbog paginationa
+      this.lastDoc = getData.docs[getData.docs.length - 1];
+
+      // ↓↓↓ Ako nema vise dokumenata
+      if (getData.empty) {
+        this.loadMoreButton = false;
+      } else {
+        this.loadMoreButton = true;
+      }
     },
   },
   async created() {
+    // ↓↓↓ Kod refresh-a se izgubi title
     if (!this.titleVar) {
       await db
         .collection("forums")
