@@ -69,9 +69,12 @@ export default {
     return {
       isOpen: false,
       forumName: "",
-      isAdmin: store.currentUser.isAdmin,
+      isAdmin: false,
       showError: false,
     };
+  },
+  mounted() {
+    this.isAdmin = store.currentUser.isAdmin;
   },
   methods: {
     async dodajForum() {
