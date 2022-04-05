@@ -144,7 +144,7 @@ export default {
       commentCounter: 0,
       isAdmin: store.currentUser.isAdmin,
       deletedPost: false,
-      username: obj.username,
+      username: "",
     };
   },
 
@@ -154,6 +154,7 @@ export default {
     this.userLiked = this.obj.likes.includes(store.currentUser.userId);
     this.userDisliked = this.obj.dislikes.includes(store.currentUser.userId);
     this.commentCounter = this.obj.commentCounter || 0;
+    this.username = this.obj.username;
   },
 
   computed: {
