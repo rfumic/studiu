@@ -8,11 +8,11 @@ Forum za studente
 
 ### Prototip aplikacije
 
-Figma: https://figma.com/...
+Figma: https://www.figma.com/proto/CNY20wWl7vAtoLR0EbKh6T/Untitled?node-id=24%3A7&scaling=min-zoom&page-id=23%3A2&starting-point-node-id=24%3A7
 
 ### Javni link na aplikaciju
 
-Web: https://netlify... (dodat će se kasnije)
+Web: https://frabjous-licorice-afe890.netlify.app/
 
 ### Organizacija
 
