@@ -131,6 +131,7 @@ export default {
 
   async mounted() {
     this.getPosts();
+    this.loadMoreButton = !this.postList.length < 5;
   },
 
   methods: {
@@ -159,13 +160,13 @@ export default {
           .where("posted_in", "==", this.forumID)
           .orderBy("posted_at", orderBy)
           .startAfter(this.lastDoc || 0)
-          .limit(10);
+          .limit(5);
       } else {
         ref = db
           .collection("posts")
           .where("posted_in", "==", this.forumID)
           .orderBy("posted_at", orderBy)
-          .limit(10);
+          .limit(5);
       }
 
       const getData = await ref.get();

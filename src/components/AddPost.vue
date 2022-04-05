@@ -89,7 +89,7 @@ export default {
         commentCounter: 0,
       });
       (this.postTitle = ""), (this.postContent = ""), (this.isOpen = false);
-      this.$parent.getPosts();
+      this.$parent.newestPosts();
     },
   },
 };
