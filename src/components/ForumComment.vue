@@ -227,6 +227,7 @@ export default {
         });
     },
     async banUser() {
+      this.username = "[korisnik_ne_postoji]";
       await db.collection("users").doc(this.userId).update({
         isBanned: true,
         username: "[korisnik_ne_postoji]",

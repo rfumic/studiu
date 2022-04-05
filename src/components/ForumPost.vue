@@ -3,7 +3,7 @@
     <div class="bg-white rounded-3xl w-[50%] border border-solid">
       <div class="px-4 py-6 flex flex-col items-start text-4xl">
         <div class="flex justify-between w-full pb-2">
-          <div class="text-sm text-gray-500">{{ obj.username }}:</div>
+          <div class="text-sm text-gray-500">{{ username }}:</div>
 
           <div class="text-sm text-gray-500" title="Vrijeme objave">
             {{ timeFormat }}
@@ -144,6 +144,7 @@ export default {
       commentCounter: 0,
       isAdmin: store.currentUser.isAdmin,
       deletedPost: false,
+      username: obj.username,
     };
   },
 
@@ -250,6 +251,7 @@ export default {
     },
 
     async banUser() {
+      this.username = "[korisnik_ne_postoji]";
       await db.collection("users").doc(this.obj.userId).update({
         isBanned: true,
         username: "[korisnik_ne_postoji]",
