@@ -20,3 +20,8 @@ Web: https://frabjous-licorice-afe890.netlify.app/
 [Fakultet informatike u Puli](https://fipu.unipu.hr/)  
 Programsko inženjerstvo, ak.god. 2021./2022.  
 Mentor: **Nikola Tanković** (https://fipu.unipu.hr/fipu/nikola.tankovic, nikola.tankovic@unipu.hr)
+
+<img src='./screenshots/homepage.png' width=300 alt='Studiu Homepage'>
+<img src='./screenshots/forums.png' width=300 alt='Studiu Forums'>
+<img src='./screenshots/forum.png' width=300 alt='Studiu Forum'>
+<img src='./screenshots/post.png' width=300 alt='Studiu Post'>
